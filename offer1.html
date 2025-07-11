@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Offer 1 – Watch & Earn</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body { background: #111; color: #fff; font-family: sans-serif; text-align: center; padding: 10px; }
+    .adbox { background: #222; margin: 10px 0; padding: 20px; border-radius: 8px; }
+    .hidden { display: none; }
+    input, button { padding: 10px; margin-top: 10px; border-radius: 5px; }
+  </style>
+</head>
+<body>
+  <h2>🎥 Watch 35 Ads to Earn 5 Coins</h2>
+  <p>Wait for each ad to finish before going to next!</p>
+
+  <div id="ads"></div>
+
+  <div id="claim" class="hidden">
+    <p>✅ Done! Enter Telegram ID to get 5 coins:</p>
+    <input type="text" id="username" placeholder="Your Telegram ID"><br>
+    <button onclick="submit()">Claim Coins</button>
+    <p id="msg"></p>
+  </div>
+
+  <script>
+    const adCount = 35;
+    let currentAd = 0;
+
+    const adsContainer = document.getElementById("ads");
+
+    function showNextAd() {
+      if (currentAd >= adCount) {
+        document.getElementById("claim").classList.remove("hidden");
+        return;
+      }
+
+      const ad = document.createElement("div");
+      ad.className = "adbox";
+      ad.innerHTML = `
+        <p>Ad ${currentAd + 1} / ${adCount}</p>
+        <!-- Replace this iframe with real ad code from Adsterra -->
+        <iframe src="https://www.highperformanceformat.com/d739d8103ffd24986ac0eaf7451a2c0b/invoke.js" style="width:100%;height:90px;"></iframe>
+        <button onclick="nextAd(this)">✅ Finished Watching</button>
+      `;
+      adsContainer.appendChild(ad);
+    }
+
+    function nextAd(btn) {
+      btn.disabled = true;
+      btn.innerText = "✅ Completed";
+      currentAd++;
+      showNextAd();
+    }
+
+    function submit() {
+      const username = document.getElementById("username").value;
+      fetch("YOUR_GOOGLE_SCRIPT_LINK_HERE", {
+        method: "POST",
+        body: JSON.stringify({ username: username, task: "Offer 1" }),
+        headers: { "Content-Type": "application/json" }
+      })
+      .then(res => res.text())
+      .then(data => {
+        document.getElementById("msg").innerText = data === "Success" ? "✅ Coins Added!" : "❌ Error submitting.";
+      });
+    }
+
+    // Start with first ad
+    showNextAd();
+  </script>
+</body>
+</html>
