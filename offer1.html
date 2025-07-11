@@ -1,60 +1,104 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Offer 1 – Watch & Earn</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ClaimZone | Watch & Earn</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
-    body { background: #111; color: #fff; font-family: sans-serif; text-align: center; padding: 10px; }
-    .adbox { background: #222; margin: 10px 0; padding: 20px; border-radius: 8px; }
-    .hidden { display: none; }
-    input, button { padding: 10px; margin-top: 10px; border-radius: 5px; }
-    form { margin-top: 20px; }
+    body {
+      background: #111;
+      color: #fff;
+      font-family: sans-serif;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+    }
+    iframe {
+      width: 100%;
+      height: 250px;
+      border: none;
+      margin-top: 20px;
+    }
+    .message {
+      background: #222;
+      padding: 16px;
+      border-radius: 12px;
+      margin: 20px;
+    }
+    .btn {
+      background: violet;
+      color: black;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 10px;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+    #claimForm {
+      display: none;
+      margin-top: 20px;
+    }
+    input, select {
+      padding: 10px;
+      width: 85%;
+      border-radius: 8px;
+      border: none;
+      margin: 5px 0;
+    }
   </style>
 </head>
 <body>
-  <h2>🎥 Watch 1 Ad to Earn 5 Coins</h2>
-  <p>Watch each ad fully to unlock the reward.</p>
 
-  <div id="ads"></div>
+  <h2>🎥 Watch Ad & Earn 1 Coin</h2>
 
-  <form id="claimForm" class="hidden" action="https://formsubmit.co/claimzone888@gmail.com" method="POST">
-    <p>✅ All ads completed! Enter your Telegram ID:</p>
-    <input type="text" name="telegram_id" placeholder="Your Telegram ID" required><br>
-    <input type="hidden" name="task" value="Offer 1 - 35 Ads">
-    <input type="hidden" name="_subject" value="New ClaimZone Ad Completion!">
-    <button type="submit">🎁 Claim 5 Coins</button>
-  </form>
+  <!-- ✅ Simulated Rewarded Ad -->
+  <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1" allow="autoplay"></iframe>
+  <!-- Replace above with real ad iframe like MinuteStox when you have one -->
+
+  <div class="message" id="timer">⏳ Please wait <b>60</b> seconds...</div>
+
+  <div id="claimForm">
+    <h3>📩 Claim Your Coin</h3>
+    <input type="text" id="tgid" placeholder="Enter your @Telegram ID">
+    <button class="btn" onclick="submitTask()">✅ Submit</button>
+    <p id="result" style="color:lime; margin-top:10px;"></p>
+  </div>
 
   <script>
-    const adCount = 1; // only 1 ad for testing
-    let currentAd = 0;
-    const adsContainer = document.getElementById("ads");
-    const claimForm = document.getElementById("claimForm");
+    let seconds = 60;
+    const timerEl = document.getElementById("timer");
 
-    function showNextAd() {
-      if (currentAd >= adCount) {
-        claimForm.classList.remove("hidden");
+    const countdown = setInterval(() => {
+      seconds--;
+      timerEl.innerHTML = `⏳ Please wait <b>${seconds}</b> seconds...`;
+      if (seconds <= 0) {
+        clearInterval(countdown);
+        timerEl.style.display = "none";
+        document.getElementById("claimForm").style.display = "block";
+      }
+    }, 1000);
+
+    function submitTask() {
+      const username = document.getElementById("tgid").value.trim();
+      const result = document.getElementById("result");
+      if (!username) {
+        result.innerText = "❌ Please enter your Telegram ID.";
         return;
       }
 
-      const ad = document.createElement("div");
-      ad.className = "adbox";
-      ad.innerHTML = `
-        <p>Ad ${currentAd + 1} / ${adCount}</p>
-        <iframe src="https://www.highperformanceformat.com/d739d8103ffd24986ac0eaf7451a2c0b/invoke.js" style="width:100%;height:90px;"></iframe>
-        <button onclick="nextAd(this)">✅ Finished Watching</button>
-      `;
-      adsContainer.appendChild(ad);
+      fetch("https://script.google.com/macros/s/AKfycbz_EsHtbPeYV6VpM0vDmxzi6ETjzNCB1apNoxCh0w9qlgbq4iAAZIBekHJ3ckYidRWt/exec", {
+        method: "POST",
+        body: JSON.stringify({ username, task: "Watched Ad" }),
+        headers: { "Content-Type": "application/json" }
+      })
+      .then(res => res.text())
+      .then(data => {
+        result.innerText = "✅ Task submitted! Coin will be credited soon.";
+        document.getElementById("tgid").value = "";
+      })
+      .catch(err => {
+        result.innerText = "❌ Error submitting. Try again later.";
+      });
     }
-
-    function nextAd(button) {
-      button.disabled = true;
-      button.innerText = "✅ Completed";
-      currentAd++;
-      showNextAd();
-    }
-
-    showNextAd();
   </script>
 </body>
 </html>
