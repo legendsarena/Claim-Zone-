@@ -1,74 +1,62 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>ClaimZone | Watch & Earn</title>
+  <title>ClaimBots - Telegram Tasks</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
-    body { background: #111; color: #fff; font-family: sans-serif; text-align: center; margin: 0; }
-    video { width: 100%; max-height: 240px; margin-top: 20px; border: none; }
-    .message { background: #222; padding: 16px; border-radius: 12px; margin: 20px; }
-    .btn { background: violet; color: black; padding: 10px 20px; border: none; border-radius: 10px; font-weight: bold; margin-top: 10px; }
-    #claimForm { display: none; margin-top: 20px; }
-    input { padding: 10px; width: 85%; border-radius: 8px; border: none; margin: 5px 0; }
-    #result { margin-top: 10px; color: lime; }
+    body { background:#111; color:#fff; font-family:sans-serif; text-align:center; margin:0; }
+    .box { background:#222; margin:12px; padding:16px; border-radius:12px; }
+    input, button, select {
+      padding:10px;
+      margin-top:10px;
+      border:none;
+      border-radius:8px;
+      width:80%;
+    }
+    button {
+      background:violet;
+      color:black;
+      font-weight:bold;
+    }
   </style>
 </head>
 <body>
 
-  <h2>🎥 Watch Ad & Earn 1 Coin</h2>
+  <h2>🤖 ClaimBots - Telegram Tasks</h2>
 
-  <!-- Simulated Rewarded Ad -->
-  <video id="rewardVideo" autoplay muted loop>
-    <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
-    Your browser does not support video.
-  </video>
-
-  <div class="message" id="timer">⏳ Please wait <b>60</b> seconds to continue...</div>
-
-  <div id="claimForm">
-    <h3>📩 Claim Your Coin</h3>
-    <input type="text" id="tgid" placeholder="Enter your @Telegram ID">
-    <button class="btn" onclick="submitTask()">✅ Submit</button>
-    <p id="result"></p>
+  <div class="box">
+    <p>🔹 Bot Task 1: <a href="https://t.me/YOUR_BOT_1" target="_blank">Join Bot</a></p>
+    <p>🔹 Bot Task 2: <a href="https://t.me/YOUR_BOT_2" target="_blank">Join Bot</a></p>
+    <p>🔹 Bot Task 3: <a href="https://t.me/YOUR_BOT_3" target="_blank">Join Bot</a></p>
+    <p>🔹 Bot Task 4: <a href="https://t.me/YOUR_BOT_4" target="_blank">Join Bot</a></p>
+    <p>🔹 Bot Task 5: <a href="https://t.me/YOUR_BOT_5" target="_blank">Join Bot</a></p>
   </div>
 
+  <div class="box">
+    <h3>🎁 Submit Your Username</h3>
+    <form id="claimForm">
+      <input type="text" name="username" placeholder="Enter ClaimZone Username" required><br>
+      <button type="submit">✅ Submit</button>
+    </form>
+    <p id="result" style="color:lime; margin-top:10px;"></p>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
   <script>
-    let seconds = 60;
-    const timerEl = document.getElementById("timer");
+    emailjs.init("LdeRlI_pU0fx7JFII");
 
-    const countdown = setInterval(() => {
-      seconds--;
-      timerEl.innerHTML = `⏳ Please wait <b>${seconds}</b> seconds to continue...`;
-      if (seconds <= 0) {
-        clearInterval(countdown);
-        timerEl.style.display = "none";
-        document.getElementById("claimForm").style.display = "block";
-      }
-    }, 1000);
+    document.getElementById("claimForm").addEventListener("submit", function(e) {
+      e.preventDefault();
 
-    function submitTask() {
-      const username = document.getElementById("tgid").value.trim();
-      const result = document.getElementById("result");
-
-      if (!username) {
-        result.innerText = "❌ Please enter your Telegram ID.";
-        return;
-      }
-
-      fetch("https://script.google.com/macros/s/AKfycbz_EsHtbPeYV6VpM0vDmxzi6ETjzNCB1apNoxCh0w9qlgbq4iAAZIBekHJ3ckYidRWt/exec", {
-        method: "POST",
-        body: JSON.stringify({ username, task: "Watched Rewarded Video" }),
-        headers: { "Content-Type": "application/json" }
-      })
-      .then(res => res.text())
-      .then(data => {
-        result.innerText = "✅ Submitted! 1 coin will be credited shortly.";
-        document.getElementById("tgid").value = "";
-      })
-      .catch(err => {
-        result.innerText = "❌ Error. Try again later.";
+      emailjs.send("service_no1dh2n", "template_wcm67sk", {
+        username: this.username.value
+      }).then(function() {
+        document.getElementById("result").innerText = "✅ Submitted! You'll be rewarded soon.";
+      }, function(error) {
+        document.getElementById("result").innerText = "❌ Submission failed. Try again.";
+        console.error(error);
       });
-    }
+    });
   </script>
 
 </body>
