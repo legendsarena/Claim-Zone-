@@ -1,10 +1,108 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>Claim Zone</title>
-  </head>
-  <body style="background:black;color:white;text-align:center;padding-top:50px;">
-    <h1>🎉 Welcome to ClaimZone!</h1>
-    <p>This is a test homepage for GitHub Pages.</p>
-  </body>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ClaimZone Bot Tasks</title>
+  <style>
+    body {
+      background: #0e0e0e;
+      color: #ffffff;
+      font-family: 'Segoe UI', sans-serif;
+      padding: 20px;
+      margin: 0;
+    }
+    h1, h2 {
+      text-align: center;
+      color: #f326a3;
+    }
+    .task {
+      background: #1a1a1a;
+      border: 1px solid #333;
+      border-radius: 10px;
+      padding: 15px;
+      margin: 20px 0;
+    }
+    .task a {
+      display: inline-block;
+      margin-top: 10px;
+      background: #ff4dc4;
+      color: #fff;
+      padding: 10px 15px;
+      border-radius: 8px;
+      text-decoration: none;
+    }
+    form {
+      background: #1a1a1a;
+      padding: 20px;
+      border-radius: 10px;
+    }
+    input, select, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 15px;
+      border-radius: 8px;
+      border: none;
+      font-size: 16px;
+    }
+    button {
+      background: #ff4dc4;
+      color: #fff;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>ClaimZone Bot Tasks</h1>
+
+  <div class="task">
+    <h2>Task 1: Join Our WhatsApp Channel</h2>
+    <a href="https://chat.whatsapp.com/KSXsBUbeOzJ4bNfopMXrIT?mode=ac_t" target="_blank">Join WhatsApp</a>
+  </div>
+
+  <h2>Complete Telegram Tasks to Earn Coins</h2>
+
+  <div class="task">
+    <p><strong>Bot 1:</strong> Join all channels. Don’t leave without getting coins.</p>
+    <a href="https://t.me/CashRise_UPIBOT?start=7984230810" target="_blank">Start Bot 1</a>
+  </div>
+
+  <div class="task">
+    <p><strong>Bot 2:</strong> Join all channels. Don’t leave without getting coins.</p>
+    <a href="https://t.me/EarnRupi_lBot?start=7984230810" target="_blank">Start Bot 2</a>
+  </div>
+
+  <h2>Claim Your Coins</h2>
+  <form id="submitForm">
+    <input type="text" name="claimzone_username" placeholder="@ClaimZone Username" required />
+    <input type="text" name="telegram_username" placeholder="@Telegram Username" required />
+    <select name="task_completed" required>
+      <option value="">Select Bot Task Completed</option>
+      <option value="Bot 1">Bot 1</option>
+      <option value="Bot 2">Bot 2</option>
+    </select>
+    <button type="submit">Submit</button>
+  </form>
+
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/emailjs-com@2.6.4/dist/email.min.js"></script>
+  <script type="text/javascript">
+    emailjs.init("LdeRlI_pU0fx7JFII"); // Your public key
+
+    document.getElementById("submitForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      emailjs.send("service_ncwjddj", "template_l3xvvrm", {
+        claimzone_username: this.claimzone_username.value,
+        telegram_username: this.telegram_username.value,
+        task_completed: this.task_completed.value
+      }).then(() => {
+        alert("Submitted successfully! We will verify your task soon.");
+        this.reset();
+      }, (err) => {
+        alert("Error submitting. Try again later.");
+        console.error(err);
+      });
+    });
+  </script>
+</body>
 </html>
+
